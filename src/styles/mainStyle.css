@@ -1,12 +1,19 @@
+
+@font-face {
+    font-family: "mainFont";
+    src: url("../assets/fonts/FiraCode-VariableFont_wght.ttf") format("truetype");
+}
 body {
-    padding: 0px;
     margin: 0px;
     
 }
 header {
-    background-color: blueviolet;
-    
+    background-color: rgb(110, 18, 196);
+    font-size: xx-large;
     height: 100px; 
     align-items: center;
-    
+    place-content: center;
+    font-family: "mainFont" , sans-serif;
+    padding-left: 20px;
+    box-shadow:  0 5px 10px rgba(0, 0, 0, 0.5);;
 }
