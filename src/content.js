@@ -12,20 +12,23 @@ const mainPages = (function (){
     content.appendChild(mainPage);
     return{mainPage};
 })();
-//if you want to add a option just add in this and append to optionPages
-const options = (function(){
+
+const options  = function(name , type ){
     const optionPage = document.querySelector("#optionPage");
-    const addTask = document.createElement("button");
-    const newProject = document.createElement("button");
-    newProject.classList.add("newProject");
-    addTask.classList.add("task");
-    newProject.textContent = "NEW PROJECT";
-    addTask.textContent = "ADD TASK";
-    optionPage.append(addTask , newProject);
-
-})();
-    
-
-export {optionPages , mainPages , options};
+    const div = document.createElement(type);
+    div.id = name;
+    const append = () => optionPage.append(div);
+    return{append , element:div}
+}
+//if you want to add a option just add in this and append 
+function DOM() {
+    const  addTasks = options("addText" , "button");
+    const newProject = options("addProject" , "button");
+    newProject.element.textContent = "NEW PROJECT";
+    addTasks.element.textContent = "ADD TEXT";
+    addTasks.append();
+    newProject.append();
+}
+export {optionPages , mainPages , DOM};
 
 

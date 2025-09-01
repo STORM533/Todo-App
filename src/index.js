@@ -1,4 +1,3 @@
 import "./styles/mainStyle.css";
-import {optionPages , mainPages , options} from "./content.js";
-console.log("hello");
-
+import {optionPages , mainPages , options , DOM} from "./content.js";
+DOM();
