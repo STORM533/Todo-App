@@ -18,14 +18,15 @@ const options  = function(name , type ){
     const div = document.createElement(type);
     div.id = name;
     const append = () => optionPage.append(div);
-    return{append , element:div}
+    const setText = (text) => div.textContent = text;
+    return{append , element:div , setText}
 }
 //if you want to add a option just add in this and append 
 function DOM() {
     const  addTasks = options("addText" , "button");
     const newProject = options("addProject" , "button");
-    newProject.element.textContent = "NEW PROJECT";
-    addTasks.element.textContent = "ADD TEXT";
+    newProject.setText("ADD PROJECT");
+    addTasks.setText("ADD NOTE");
     addTasks.append();
     newProject.append();
 }
