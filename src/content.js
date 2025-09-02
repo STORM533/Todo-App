@@ -12,8 +12,7 @@ const mainPages = (function (){
     content.appendChild(mainPage);
     return{mainPage};
 })();
-
-const options  = function(name , type ){
+const options  = function(name , type  ){
     const optionPage = document.querySelector("#optionPage");
     const div = document.createElement(type);
     div.id = name;
@@ -23,12 +22,15 @@ const options  = function(name , type ){
 }
 //if you want to add a option just add in this and append 
 function DOM() {
-    const  addTasks = options("addText" , "button");
+    const  addTasks = options("addNote" , "button");
     const newProject = options("addProject" , "button");
+    const  allNotes = options("allNotes" , "div");
+    allNotes.setText("ALL NOTES");
     newProject.setText("ADD PROJECT");
     addTasks.setText("ADD NOTE");
     addTasks.append();
     newProject.append();
+    allNotes.append();
 }
 export {optionPages , mainPages , DOM};
 
