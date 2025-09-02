@@ -32,19 +32,29 @@ function optionsDOM() {
     newProject.append();
     allNotes.append();
 }
-const formCreator = function(labelType , labelName , text , typeName) {
+const formCreator = function( type ,labelName , text , typeName) {
     const form = document.querySelector("#myForm");
     const div = document.createElement("div");
-    const label = document.createElement("label");
-    label.setAttribute(labelType , labelName);
-    label.textContent = text;
-    const input = document.createElement("input");
-    input.setAttribute("type" , typeName);
-    input.setAttribute("name" , labelName );
-    input.id =labelName;
+    const elements = document.createElement(type);
+    const tag = type.toLowerCase();
+    if(tag === "label"){
+        elements.setAttribute("for" , labelName);
+        elements.textContent = text;
+        const input = document.createElement("input");
+        input.setAttribute("type" , typeName);
+        input.setAttribute("name" , labelName );
+        input.id =labelName;
+        div.append(elements , input);
+    };
+    if(tag === "textarea") {
+        elements.id = "text";
+        div.append(elements);
+    };
+    if(tag === "select") {
+        
+    }
     const appends = () => form.appendChild(div);
-    const formAppends = () => div.append(label , input);
-    return {appends , formAppends};
+    return {appends};
 }
 const dialog =function(){
     const mainBody = document.querySelector("#mainPage");
@@ -61,9 +71,6 @@ const dialog =function(){
     div.append(dialog);
     mainBody.append(div);
 }
-
-
-
 export {optionPages , mainPages , optionsDOM , formCreator , dialog};
 
 
