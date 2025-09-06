@@ -36,22 +36,39 @@ const formCreator = function( type ,labelName , text , typeName) {
     const form = document.querySelector("#myForm");
     const div = document.createElement("div");
     const elements = document.createElement(type);
+    const label = document.createElement("label");
+    label.setAttribute("for" , labelName);
+    label.textContent = text;
     const tag = type.toLowerCase();
-    if(tag === "label"){
-        elements.setAttribute("for" , labelName);
-        elements.textContent = text;
-        const input = document.createElement("input");
-        input.setAttribute("type" , typeName);
-        input.setAttribute("name" , labelName );
-        input.id =labelName;
-        div.append(elements , input);
+    if(tag === "input"){
+        elements.setAttribute("type" , typeName);
+        elements.setAttribute("name" , labelName );
+        elements.id =labelName;
+        elements.required = true;
+        div.append(label , elements);
     };
     if(tag === "textarea") {
-        elements.id = "text";
-        div.append(elements);
+        elements.setAttribute("name" , labelName );
+        elements.id = labelName;
+        div.append(label , elements);
     };
     if(tag === "select") {
-        
+        elements.setAttribute("name" , labelName );
+        elements.id = labelName;
+        const option1 = document.createElement("option");
+        const option2 = document.createElement("option");
+        const option3 = document.createElement("option");
+        const option4 = document.createElement("option");
+        option1.value = "";
+        option2.value = "highPriority";
+        option3.value = "medPriority";
+        option4.value = "lowPriority";
+        option1.text = "--Please assign priority--";
+        option2.text = "High Priority";
+        option3.text = "Medium Priority";
+        option4.text = "Low Priority";
+        elements.append(option1 , option2 , option3 , option4);
+        div.append(label , elements);
     }
     const appends = () => form.appendChild(div);
     return {appends};
@@ -61,13 +78,15 @@ const dialog =function(){
     const div = document.createElement("div");
     const dialog = document.createElement("dialog");
     const closeButton = document.createElement("button");
+    closeButton.setAttribute("type" , "button");
     div.id = "mainDiv";
     closeButton.id = "closeButton";
-    closeButton.textContent = "CLOSE";
+    closeButton.textContent = "SUBMIT";
     const form  = document.createElement("form");
     form.id = "myForm";
     form.method = "post";
-    dialog.append(form , closeButton);
+    dialog.append(form);
+    form.append(closeButton);
     div.append(dialog);
     mainBody.append(div);
 }
