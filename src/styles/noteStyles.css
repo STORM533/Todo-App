@@ -1,3 +1,51 @@
+@font-face {
+    font-family: "notMyFont";
+    src: url("../assets/fonts/FiraCode-VariableFont_wght.ttf") format("trueType");
+}
+dialog {
+    background-color: cadetblue;
+}
 #myForm {
+    display: grid;
+    width: 600px;
+    height: 450px;
+    grid-template-columns: repeat(2 ,300px);
+    grid-template-rows: repeat(3 , 1fr);
+    place-items: center;
+    font-family: "notMyFont" , sans-serif;
+    font-size: larger;
+    margin: 0px;
+    padding: 0px;
+
+}
+#myId {
+    grid-column: 1 / 3;
+}
+textArea {
+    resize: none;
+    
+}
+
+#myForm div {
     display: flex;
+    place-items: center;
+    gap: 20px;
+
+}
+input  {
+height: 30px;
+width: 140px;
+}
+select {
+    height: 30px;
+}
+
+#closeButton {
+    font-family: "mainFont" , sans-serif;
+    margin: 10px;
+    width: 70px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 15px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }

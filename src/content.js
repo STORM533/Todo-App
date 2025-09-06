@@ -50,6 +50,9 @@ const formCreator = function( type ,labelName , text , typeName) {
     if(tag === "textarea") {
         elements.setAttribute("name" , labelName );
         elements.id = labelName;
+        div.setAttribute("id" , "myId");
+        elements.setAttribute("rows" , "10");
+        elements.setAttribute("cols" , "45");
         div.append(label , elements);
     };
     if(tag === "select") {
