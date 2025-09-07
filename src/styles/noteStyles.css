@@ -4,6 +4,7 @@
 }
 dialog {
     background-color: cadetblue;
+    border-radius: 20px;
 }
 #myForm {
     display: grid;
@@ -16,6 +17,7 @@ dialog {
     font-size: larger;
     margin: 0px;
     padding: 0px;
+    
 
 }
 #myId {
@@ -23,24 +25,30 @@ dialog {
 }
 textArea {
     resize: none;
-    
+    border-radius: 10px;
+    background-color: bisque;
 }
 
 #myForm div {
     display: flex;
     place-items: center;
     gap: 20px;
-
+    
 }
 input  {
-height: 30px;
-width: 140px;
-}
-select {
-    height: 30px;
+    height: 25px;
+    width: 200px;
+    border-radius: 10px;
+    background-color: bisque;
 }
 
-#closeButton {
+select {
+    height: 30px;
+    border-radius: 10px;
+    background-color: bisque;
+}
+
+#closeButton , #closeDialog {
     font-family: "mainFont" , sans-serif;
     margin: 10px;
     width: 70px;
@@ -48,4 +56,5 @@ select {
     border-radius: 10px;
     font-size: 15px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    background-color: bisque;
 }

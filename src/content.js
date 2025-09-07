@@ -32,6 +32,7 @@ function optionsDOM() {
     newProject.append();
     allNotes.append();
 }
+//creates form 
 const formCreator = function( type ,labelName , text , typeName) {
     const form = document.querySelector("#myForm");
     const div = document.createElement("div");
@@ -76,23 +77,34 @@ const formCreator = function( type ,labelName , text , typeName) {
     const appends = () => form.appendChild(div);
     return {appends};
 }
+
+//HOly fucking i lose brain cells editing this
 const dialog =function(){
     const mainBody = document.querySelector("#mainPage");
+    const count = document.querySelectorAll("#mainDiv").length + 1;
     const div = document.createElement("div");
     const dialog = document.createElement("dialog");
     const closeButton = document.createElement("button");
+    const closeDialog = document.createElement("button");
+    const buttonDiv = document.createElement("div");
+    closeDialog.setAttribute("type" , "button");
     closeButton.setAttribute("type" , "button");
     div.id = "mainDiv";
+    div.classList.add(`mainDiv-${count}`);
     closeButton.id = "closeButton";
     closeButton.textContent = "SUBMIT";
+    closeDialog.id = "closeDialog";
+    closeDialog.textContent = "CLOSE";
     const form  = document.createElement("form");
     form.id = "myForm";
     form.method = "post";
     dialog.append(form);
-    form.append(closeButton);
+    buttonDiv.append(closeButton , closeDialog);
+    form.append(buttonDiv);
     div.append(dialog);
     mainBody.append(div);
 }
-export {optionPages , mainPages , optionsDOM , formCreator , dialog};
+
+export {optionPages , mainPages , optionsDOM , formCreator , dialog };
 
 
