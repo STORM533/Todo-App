@@ -81,7 +81,7 @@ const formCreator = function( type ,labelName , text , typeName) {
 //HOly fucking i lose brain cells editing this
 const dialog =function(){
     const mainBody = document.querySelector("#mainPage");
-    const count = document.querySelectorAll("#mainDiv").length + 1;
+    const count = document.querySelectorAll(".mainDiv").length + 1;
     const div = document.createElement("div");
     const dialog = document.createElement("dialog");
     const closeButton = document.createElement("button");
@@ -89,8 +89,8 @@ const dialog =function(){
     const buttonDiv = document.createElement("div");
     closeDialog.setAttribute("type" , "button");
     closeButton.setAttribute("type" , "button");
-    div.id = "mainDiv";
-    div.classList.add(`mainDiv-${count}`);
+    div.classList= "mainDiv";
+    div.id = (`mainDiv-${count}`);
     closeButton.id = "closeButton";
     closeButton.textContent = "SUBMIT";
     closeDialog.id = "closeDialog";
@@ -104,7 +104,23 @@ const dialog =function(){
     div.append(dialog);
     mainBody.append(div);
 }
+const divButtons = function(){
+    const mainDivs = document.querySelectorAll(".mainDiv");
+    const btn1  = document.createElement("button");
+    const btn2 = document.createElement("button");
+    btn1.id = "deleteDiv";
+    btn2.id = "editDiv";
+    const dltSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>`
+    const editSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,16A2,2 0 0,1 14,18A2,2 0 0,1 12,20A2,2 0 0,1 10,18A2,2 0 0,1 12,16M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4Z" /></svg>`
+    btn1.innerHTML = dltSvg;
+    btn2.innerHTML = editSvg;
+    mainDivs.forEach(button =>{
+        button.append(btn1 , btn2);
+    }) 
+    mainDivs.appendChild;
+    return{btn1 , btn2};
+}
 
-export {optionPages , mainPages , optionsDOM , formCreator , dialog };
+export {optionPages , mainPages , optionsDOM , formCreator , dialog ,divButtons };
 
 
