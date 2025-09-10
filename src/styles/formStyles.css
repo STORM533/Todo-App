@@ -48,7 +48,7 @@ select {
     background-color: bisque;
 }
 
-#closeButton , #closeDialog {
+#closeBtn , #submitBtn {
     font-family: "mainFont" , sans-serif;
     margin: 10px;
     width: 70px;

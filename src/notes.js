@@ -1,32 +1,39 @@
 import { pt } from "date-fns/locale";
-import { formCreator ,dialog , divButtons} from "./content.js";
+import { formCreator ,setupDialog , divButtons ,mainDivForm} from "./content.js";
 import "./styles/formStyles.css";
 import "./styles/noteStyles.css";
 import {format, formatDistance , formatRelative ,subDays} from "date-fns"
 function button() {
     const btn1 = document.querySelector("#addNote");
+    const mainPage = document.querySelector("#mainPage");
     btn1.addEventListener("click" , () =>{
-        dialog();
+        const mainDiv =  document.createElement("div");
+        mainPage.append(mainDiv);
+        mainDiv.classList.add("mainDiv");
+        const count  = document.querySelectorAll(".mainDiv").length;
+        mainDiv.id = `mainDiv-${count}`;
+        setupDialog();
         showDialog();
-        
-        const btn2 = document.querySelector("#closeButton");
+        submitNote();
+        closeNote();
+    });
+}
+function submitNote () {
+    const btn2 = document.querySelector("#submitBtn");
         btn2.addEventListener("click" , () =>{
             formValidation();
-            
         });
-        const btn3 = document.querySelector("#closeDialog");
+}
+function closeNote () {
+    const btn3 = document.querySelector("#closeBtn");
         const dialogs = document.querySelector("dialog");
-        const count = document.querySelectorAll("#mainDiv").length;
-        const mainDiv = document.querySelector(`.mainDiv-${count}`);
+        const count = document.querySelectorAll(".mainDiv").length;
+        const mainDiv = document.querySelector(`#mainDiv-${count}`);
             btn3.addEventListener("click" , () =>{
             dialogs.close();
             dialogs.remove();
             mainDiv.remove();
-            
         });
-    });
-    
-    
 }
 function showDialog(){
     const dialogs = document.querySelector("dialog");
@@ -51,52 +58,112 @@ const formValidation = function() {
 }
 function closeDialog(){
     const dialogs = document.querySelector("dialog");
+    divButtons();
     mainDivForm();
     dialogs.close();
     dialogs.remove();
-    divButtons();
     deleteBtn();
+    editBtn();
 }
 
 function deleteBtn () {
+    const count  = document.querySelectorAll(".mainDiv").length;
     const mainDiv = document.querySelectorAll(".mainDiv");
-    const deleteButton = document.querySelectorAll("#deleteDiv");
+    const deleteButton = document.querySelectorAll(`#deleteDiv-${count}`);
     mainDiv.forEach(div => {
         deleteButton.forEach(button => {
             if (div.contains(button)) {
                 button.addEventListener("click", () => {
                     div.remove();
-                    reIndexingDiv();
+                    reIndexingId();
                 });
             }
         });
     });
 }
-function reIndexingDiv() {
+function reIndexingId() {
     const mainDiv = document.querySelectorAll(".mainDiv");
+    const deleteBtn = document.querySelectorAll(".deleteDiv");
+    const editBtn = document.querySelectorAll(".editDiv");
+    const title = document.querySelectorAll(".title");
+    const dueDate = document.querySelectorAll(".dueDate");
+    const priority =document.querySelectorAll(".priority");
+    const description = document.querySelectorAll(".description");
+    title.forEach((div ,index) => {
+        div.id = "";
+        div.id = `mainDiv-${index + 1}`;
+    });
+    dueDate.forEach((div ,index) => {
+        div.id = "";
+        div.id = `mainDiv-${index + 1}`;
+    });
+    description.forEach((div ,index) => {
+        div.id = "";
+        div.id = `mainDiv-${index + 1}`;
+    });
+    priority.forEach((div ,index) => {
+        div.id = "";
+        div.id = `mainDiv-${index + 1}`;
+    });
     mainDiv.forEach((div ,index) => {
         div.id = "";
         div.id = `mainDiv-${index + 1}`;
     });
+    deleteBtn.forEach((button,index) =>{
+        button.id = "";
+        button.id = `deleteDiv-${index + 1}`;
+    });
+    editBtn.forEach((button,index) =>{
+        button.id = "";
+        button.id = `editDiv-${index + 1}`;
+    });
 }
-function mainDivForm () {
-    const count = document.querySelectorAll(".mainDiv").length;
-    const pTitle = document.createElement("p");
-    const pDescription = document.createElement("p");
-    const pDueDate = document.createElement("p");
-    const pPriority = document.createElement("p");
-    const title = document.querySelector("#title").value;
-    const description = document.querySelector("#textArea").value;
-    const dueDate = document.querySelector("#dueDate").value;
-    const priority = document.querySelector("#priority").value;
-    pTitle.textContent = title;
-    pDescription.textContent = description;
-    pDueDate.textContent = dueDate;
-    pPriority.textContent = priority;
-    let string = `mainDiv-${count}`;
-    const appendBox = document.querySelector(`#${string}`);
-    appendBox.append(pTitle , pDueDate , pPriority , pDescription);
-    
+
+function editBtn (){
+    const editButton = document.querySelectorAll(".editDiv");
+    editButton.forEach(button => {
+        button.addEventListener("click", () => {
+            setupDialog ();
+            const div = button.closest(".mainDiv");
+            formEditor(div);
+            
+            const dialog = document.querySelector("dialog");
+            editCloseBtn(dialog);
+            submitCloseBtn(div ,dialog);
+        });  
+    });
 }
+function submitCloseBtn (target , dialog) {
+    const btn2 = dialog.querySelector("#submitBtn");
+        btn2.addEventListener("click" , () =>{
+            Array.from(target.children).forEach(child =>{
+                if(child.tagName !== "BUTTON") {
+                    child.remove();
+                };
+            });
+            mainDivForm();
+            dialog.close();
+            dialog.remove();
+        });
+}
+function editCloseBtn (dialog) {
+    const btn3 = dialog.querySelector("#closeBtn");
+    btn3.addEventListener("click" , () =>{
+        dialog.close();
+        dialog.remove();
+    });
+}
+function formEditor (editTarget) {
+    showDialog();
+    const divTitle = editTarget.querySelector(".title").textContent;
+    const divDueDate = editTarget.querySelector(".dueDate").textContent;
+    const divDescription = editTarget.querySelector(".description").textContent;
+    const divPriority = editTarget.querySelector(".priority").textContent;
+    document.querySelector("#title").value = divTitle;
+    document.querySelector("#textArea").value = divDescription;
+    document.querySelector("#dueDate").value = divDueDate;
+    document.querySelector("#priority").value = divPriority;
+}
+
 
 export{button};
