@@ -19,9 +19,13 @@ function button() {
     });
 }
 function submitNote () {
+    const count = document.querySelectorAll(".mainDiv").length;
     const btn2 = document.querySelector("#submitBtn");
+    
         btn2.addEventListener("click" , () =>{
             formValidation();
+            const div = document.querySelector(`#mainDiv-${count}`);
+            priorityColor(div);
         });
 }
 function closeNote () {
@@ -123,8 +127,10 @@ function editBtn (){
     const editButton = document.querySelectorAll(".editDiv");
     editButton.forEach(button => {
         button.addEventListener("click", () => {
-            setupDialog ();
             const div = button.closest(".mainDiv");
+            
+            setupDialog();
+            showDialog();
             formEditor(div);
             
             const dialog = document.querySelector("dialog");
@@ -133,7 +139,7 @@ function editBtn (){
         });  
     });
 }
-function submitCloseBtn (target , dialog) {
+const submitCloseBtn = function(target ,dialog){
     const btn2 = dialog.querySelector("#submitBtn");
         btn2.addEventListener("click" , () =>{
             Array.from(target.children).forEach(child =>{
@@ -146,15 +152,14 @@ function submitCloseBtn (target , dialog) {
             dialog.remove();
         });
 }
-function editCloseBtn (dialog) {
+const editCloseBtn = function(dialog) {
     const btn3 = dialog.querySelector("#closeBtn");
     btn3.addEventListener("click" , () =>{
         dialog.close();
         dialog.remove();
     });
 }
-function formEditor (editTarget) {
-    showDialog();
+const formEditor = function(editTarget) {
     const divTitle = editTarget.querySelector(".title").textContent;
     const divDueDate = editTarget.querySelector(".dueDate").textContent;
     const divDescription = editTarget.querySelector(".description").textContent;
@@ -164,6 +169,20 @@ function formEditor (editTarget) {
     document.querySelector("#dueDate").value = divDueDate;
     document.querySelector("#priority").value = divPriority;
 }
+const priorityColor = function(target) {
+    const priority = target.querySelector(".priority").textContent.trim();
+
+    const colors = {
+        "High Priority": "#e74c3c",
+        "Medium Priority": "#f39c12",
+        "Low Priority": "#2ecc71"
+    };
+
+    if (colors[priority]) {
+        target.style.backgroundColor = colors[priority];
+        target.style.color = "#fff";
+    }
+};
 
 
-export{button};
+export{button,priorityColor};

@@ -64,9 +64,9 @@ const formCreator = function( type ,labelName , text , typeName) {
         const option3 = document.createElement("option");
         const option4 = document.createElement("option");
         option1.value = "";
-        option2.value = "highPriority";
-        option3.value = "medPriority";
-        option4.value = "lowPriority";
+        option2.value = "High Priority";
+        option3.value = "Medium Priority";
+        option4.value = "Low Priority";
         option1.text = "--Please assign priority--";
         option2.text = "High Priority";
         option3.text = "Medium Priority";
@@ -145,6 +145,7 @@ const mainDivForm = function() {
     let string = `mainDiv-${count}`;
     const appendBox = document.querySelector(`#${string}`);
     appendBox.append(divTitle , divDueDate , divPriority , divDescription);
+    
 }
 
 export {optionPages , mainPages , optionsDOM , formCreator , setupDialog ,divButtons ,mainDivForm};
