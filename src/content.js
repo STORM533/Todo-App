@@ -25,7 +25,7 @@ function optionsDOM() {
     const  addTasks = options("addNote" , "button");
     const newProject = options("addProject" , "button");
     const  allNotes = options("allNotes" , "div");
-    allNotes.setText("ALL NOTES");
+    allNotes.setText("ALL PROJECT");
     newProject.setText("ADD PROJECT");
     addTasks.setText("ADD NOTE");
     addTasks.append();
@@ -77,8 +77,6 @@ const formCreator = function( type ,labelName , text , typeName) {
     const appends = () => form.appendChild(div);
     return {appends};
 }
-
-
 const setupDialog =function(){
     const dialog = document.createElement("dialog");
     const form  = document.createElement("form");
@@ -120,31 +118,28 @@ const divButtons = function(){
     return{btn1 , btn2};
 }
 //HOly fucking i lose brain cells editing this
-const mainDivForm = function() {
-    const count = document.querySelectorAll(".mainDiv").length;
+const mainDivForm = function(target) {
     const title = document.querySelector("#title").value;
     const description = document.querySelector("#textArea").value;
     const dueDate = document.querySelector("#dueDate").value;
     const priority = document.querySelector("#priority").value;
     const divTitle = document.createElement("div");
-    const divDueDate = document.createElement("div");
-    const divDescription = document.createElement("div");
-    const divPriority = document.createElement("div");
     divTitle.textContent = title;
-    divDescription.textContent = description;
-    divDueDate.textContent = dueDate;
-    divPriority.textContent = priority;
     divTitle.classList.add("title");
+
+    const divDueDate = document.createElement("div");
+    divDueDate.textContent = dueDate;
     divDueDate.classList.add("dueDate");
+
+    const divDescription = document.createElement("div");
+    divDescription.textContent = description;
     divDescription.classList.add("description");
+
+    const divPriority = document.createElement("div");
+    divPriority.textContent = priority;
     divPriority.classList.add("priority");
-    divTitle.id = `title-${count}`;
-    divDescription.id = `description-${count}`;
-    divDueDate.id = `dueDate-${count}`;
-    divPriority.id = `priority-${count}`;
-    let string = `mainDiv-${count}`;
-    const appendBox = document.querySelector(`#${string}`);
-    appendBox.append(divTitle , divDueDate , divPriority , divDescription);
+
+    target.append(divTitle, divDueDate, divPriority, divDescription);   
     
 }
 

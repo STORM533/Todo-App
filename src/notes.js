@@ -21,10 +21,9 @@ function button() {
 function submitNote () {
     const count = document.querySelectorAll(".mainDiv").length;
     const btn2 = document.querySelector("#submitBtn");
-    
         btn2.addEventListener("click" , () =>{
-            formValidation();
             const div = document.querySelector(`#mainDiv-${count}`);
+            formValidation(div);
             priorityColor(div);
         });
 }
@@ -51,19 +50,19 @@ function showDialog(){
     forms2.appends();
     dialogs.showModal();
 }
-const formValidation = function() {
+const formValidation = function(target) {
     const form  = document.querySelector("#myForm");
         if(!form.reportValidity()){
             return;
         } else {
-            closeDialog();
+            closeDialog(target);
             
         }
 }
-function closeDialog(){
+function closeDialog(target){
     const dialogs = document.querySelector("dialog");
     divButtons();
-    mainDivForm();
+    mainDivForm(target);
     dialogs.close();
     dialogs.remove();
     deleteBtn();
@@ -127,15 +126,22 @@ function editBtn (){
     const editButton = document.querySelectorAll(".editDiv");
     editButton.forEach(button => {
         button.addEventListener("click", () => {
+            let dialog = document.querySelector("dialog");
             const div = button.closest(".mainDiv");
-            
-            setupDialog();
-            showDialog();
-            formEditor(div);
-            
-            const dialog = document.querySelector("dialog");
-            editCloseBtn(dialog);
-            submitCloseBtn(div ,dialog);
+            if(!dialog) {
+                
+                
+                setupDialog();
+                showDialog();
+                dialog = document.querySelector("dialog");
+                formEditor(div , dialog);
+                
+                
+                editCloseBtn(dialog);
+                submitCloseBtn(div ,dialog);
+                
+            }
+           
         });  
     });
 }
@@ -147,9 +153,13 @@ const submitCloseBtn = function(target ,dialog){
                     child.remove();
                 };
             });
-            mainDivForm();
+            mainDivForm(target);
             dialog.close();
             dialog.remove();
+            const priority = target.querySelector(".priority");
+            if(priority) {
+                priorityColor(target);
+            }
         });
 }
 const editCloseBtn = function(dialog) {
@@ -159,18 +169,22 @@ const editCloseBtn = function(dialog) {
         dialog.remove();
     });
 }
-const formEditor = function(editTarget) {
+const formEditor = function(editTarget , dialog) {
     const divTitle = editTarget.querySelector(".title").textContent;
     const divDueDate = editTarget.querySelector(".dueDate").textContent;
     const divDescription = editTarget.querySelector(".description").textContent;
     const divPriority = editTarget.querySelector(".priority").textContent;
-    document.querySelector("#title").value = divTitle;
-    document.querySelector("#textArea").value = divDescription;
-    document.querySelector("#dueDate").value = divDueDate;
-    document.querySelector("#priority").value = divPriority;
+    dialog.querySelector("#title").value = divTitle;
+    dialog.querySelector("#textArea").value = divDescription;
+    dialog.querySelector("#dueDate").value = divDueDate;
+    dialog.querySelector("#priority").value = divPriority;
 }
 const priorityColor = function(target) {
-    const priority = target.querySelector(".priority").textContent.trim();
+    let priority = target.querySelector(".priority");
+    if(!priority) {
+        return;
+    }
+    priority = target.querySelector(".priority").textContent.trim();
 
     const colors = {
         "High Priority": "#e74c3c",
