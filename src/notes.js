@@ -187,6 +187,7 @@ const priorityColor = function(target) {
     priority = target.querySelector(".priority").textContent.trim();
 
     const colors = {
+        "" : "#fff",
         "High Priority": "#e74c3c",
         "Medium Priority": "#f39c12",
         "Low Priority": "#2ecc71"
