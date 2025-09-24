@@ -24,13 +24,13 @@ const options  = function(name , type){
 function optionsDOM() {
     const  addTasks = options("addNote" , "button");
     const newProject = options("addProject" , "button");
-    const  allNotes = options("allNotes" , "div");
-    allNotes.setText("ALL PROJECT");
+    const  allProjects = options("allProjects" , "div");
+    allProjects.setText("ALL PROJECT");
     newProject.setText("ADD PROJECT");
     addTasks.setText("ADD NOTE");
     addTasks.append();
     newProject.append();
-    allNotes.append();
+    allProjects.append();
 }
 //creates form 
 const formCreator = function( type ,labelName , text , typeName) {

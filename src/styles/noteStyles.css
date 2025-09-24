@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "notMainFont";
+  src: url("../assets/fonts/FiraCode-VariableFont_wght.ttf") format("truetype");
+}
+
 #mainPage {
     display: grid;
     grid-template-columns: repeat(auto-fit , minmax(400px , 1fr));
@@ -21,6 +26,8 @@
 
 /* Title + buttons row */
 .title {
+font-family: "notMainFont" ,sans-serif;
+font-size: larger;
   font-size: 1.1rem;
   font-weight: 600;
   color: #333;
@@ -40,7 +47,7 @@
 }
 
 .editDiv {
-  color: #0275d8; /* blue */
+  color: #0d7fe2; /* blue */
 }
 .deleteDiv {
   color: #d9534f; /* red */
@@ -56,7 +63,7 @@
 }
 
 .dueDate {
-  color: #6c757d;
+  color: #5901fd;
   text-align: left;
 }
 .priority {
@@ -66,16 +73,19 @@
 
 /* Description */
 .description {
+  display: inline-block;
+  width: 300px;
+  height: 20px;
     font-size: 0.9rem;
     color: #444;
     line-height: 1.4;
-    max-height: 50px;
-    overflow-y: auto;
+    overflow-y: scroll;
     padding: 6px;
     border-top: 1px solid #eee;
     margin-top: 6px;
     background: #fff;
     border-radius: 6px;
+    max-lines: 2;
 }
 svg {
     width: 30px;

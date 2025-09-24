@@ -200,4 +200,4 @@ const priorityColor = function(target) {
 };
 
 
-export{button,priorityColor};
+export{button};
