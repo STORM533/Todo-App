@@ -44,7 +44,6 @@ header {
 #allProjects {
     font-size: xx-large;    
     text-decoration: underline;
+    text-align: center;
     text-shadow: -1px 1px 4px rgb(17, 206, 206);
 }
-
-
