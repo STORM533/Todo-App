@@ -186,7 +186,7 @@ const submitCloseBtn = function(target, dialog) {
         const priorityDiv = target.querySelector(".priority");
         if (priorityDiv) priorityColor(target);
     });
-};
+}
 const editCloseBtn = function(dialog) {
     const btn3 = dialog.querySelector("#closeBtn");
     btn3.addEventListener("click" , () =>{
@@ -222,7 +222,7 @@ const priorityColor = function(target) {
         target.style.backgroundColor = colors[priority];
         target.style.color = "#fff";
     }
-};
+}
 function isDuplicateNote(title, excludeTarget = null) {
     const allNotes = document.querySelectorAll(".title");
   

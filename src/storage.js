@@ -53,7 +53,10 @@ function renderNotes(projectName) {
 }
 function renderProjects() {
     const projectList = document.querySelector("#allProjects");
-    projectList.innerHTML = ""; // clear old projects
+
+    // Keep existing projects to avoid duplicates
+    const existingProjects = Array.from(projectList.querySelectorAll(".projects"))
+                                  .map(p => p.textContent.trim());
 
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
@@ -61,16 +64,26 @@ function renderProjects() {
         if (key.startsWith("project:")) {
             const projectName = key.split(":")[1];
 
+            if (existingProjects.includes(projectName)) continue;
+
             const div = document.createElement("div");
             div.textContent = projectName;
-            div.classList.add("projects"); // keep your styling
-            div.id = projectName === "default" ? "defaults" : projectName; // keep default id
+            div.classList.add("projects");
+            div.id = projectName === "PROJECT(Default)" ? "default" : projectName;
 
-            // click → render notes
+            div.style.backgroundColor = (div.id === "default") ? "red" : "#0077ff";
+
             div.addEventListener("click", () => {
-                searchActiveProject(div); // mark active project for styling
-                
-                renderNotes(projectName); // render notes for this project
+                const currentDefault = document.querySelector("#allProjects #default");
+                if (currentDefault && currentDefault !== div) {
+                    currentDefault.id = currentDefault.textContent.trim().replace(/\s+/g, "_");
+                    currentDefault.style.backgroundColor = "#0077ff";
+                }
+
+                div.id = "default";
+                div.style.backgroundColor = "red";
+
+                renderNotes(projectName);
             });
 
             projectList.appendChild(div);
