@@ -112,7 +112,7 @@ const divButtons = function(){
     btn1.innerHTML = dltSvg;
     btn2.innerHTML = editSvg;
     mainDivs.forEach(button =>{
-        button.append(btn1 , btn2);
+        button.prepend(btn1 , btn2);
     }) 
     mainDivs.appendChild;
     return{btn1 , btn2};

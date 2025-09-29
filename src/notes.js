@@ -2,7 +2,9 @@ import { pt } from "date-fns/locale";
 import { formCreator ,setupDialog , divButtons ,mainDivForm} from "./content.js";
 import "./styles/formStyles.css";
 import "./styles/noteStyles.css";
+import { searchActiveProject } from "./project.js";
 import {format, formatDistance , formatRelative ,subDays} from "date-fns"
+import { saveNoteToLocalStorage , renderNotes , updateNote, deleteNote} from "./storage.js";
 function button() {
     const btn1 = document.querySelector("#addNote");
     const mainPage = document.querySelector("#mainPage");
@@ -16,6 +18,7 @@ function button() {
         showDialog();
         submitNote();
         closeNote();
+        
     });
 }
 function submitNote () {
@@ -23,8 +26,19 @@ function submitNote () {
     const btn2 = document.querySelector("#submitBtn");
         btn2.addEventListener("click" , () =>{
             const div = document.querySelector(`#mainDiv-${count}`);
+            const titleInput = document.querySelector("#title").value;
+            if (isDuplicateNote(titleInput)) {
+                return; 
+            }
             formValidation(div);
             priorityColor(div);
+
+            const defaultProject = searchActiveProject();
+            saveNoteToLocalStorage(defaultProject ,div );
+            
+            console.log(`Saved note to project: ${defaultProject}`);
+            renderNotes(defaultProject);
+            
         });
 }
 function closeNote () {
@@ -68,7 +82,6 @@ function closeDialog(target){
     deleteBtn();
     editBtn();
 }
-
 function deleteBtn () {
     const count  = document.querySelectorAll(".mainDiv").length;
     const mainDiv = document.querySelectorAll(".mainDiv");
@@ -77,6 +90,9 @@ function deleteBtn () {
         deleteButton.forEach(button => {
             if (div.contains(button)) {
                 button.addEventListener("click", () => {
+                    const title = div.querySelector(".title").textContent;
+                    const projectName = searchActiveProject();
+                    deleteNote(projectName, title);
                     div.remove();
                     reIndexingId();
                 });
@@ -121,7 +137,6 @@ function reIndexingId() {
         button.id = `editDiv-${index + 1}`;
     });
 }
-
 function editBtn (){
     const editButton = document.querySelectorAll(".editDiv");
     editButton.forEach(button => {
@@ -129,14 +144,10 @@ function editBtn (){
             let dialog = document.querySelector("dialog");
             const div = button.closest(".mainDiv");
             if(!dialog) {
-                
-                
                 setupDialog();
                 showDialog();
                 dialog = document.querySelector("dialog");
                 formEditor(div , dialog);
-                
-                
                 editCloseBtn(dialog);
                 submitCloseBtn(div ,dialog);
                 
@@ -145,23 +156,37 @@ function editBtn (){
         });  
     });
 }
-const submitCloseBtn = function(target ,dialog){
+const submitCloseBtn = function(target, dialog) {
     const btn2 = dialog.querySelector("#submitBtn");
-        btn2.addEventListener("click" , () =>{
-            Array.from(target.children).forEach(child =>{
-                if(child.tagName !== "BUTTON") {
-                    child.remove();
-                };
-            });
-            mainDivForm(target);
-            dialog.close();
-            dialog.remove();
-            const priority = target.querySelector(".priority");
-            if(priority) {
-                priorityColor(target);
-            }
+
+    btn2.addEventListener("click", () => {
+        const projectName = searchActiveProject();
+        const oldTitle = target.querySelector(".title").textContent;
+
+        const newNote = {
+            title: dialog.querySelector("#title").value,
+            dueDate: dialog.querySelector("#dueDate").value,
+            description: dialog.querySelector("#textArea").value,
+            priority: dialog.querySelector("#priority").value
+        };
+
+        if (isDuplicateNote(newNote.title, target)) return;
+
+        // Update localStorage
+        updateNote(projectName, oldTitle, newNote);
+
+        // Update DOM
+        Array.from(target.children).forEach(child => {
+            if (child.tagName !== "BUTTON") child.remove();
         });
-}
+        mainDivForm(target);
+        dialog.close();
+        dialog.remove();
+
+        const priorityDiv = target.querySelector(".priority");
+        if (priorityDiv) priorityColor(target);
+    });
+};
 const editCloseBtn = function(dialog) {
     const btn3 = dialog.querySelector("#closeBtn");
     btn3.addEventListener("click" , () =>{
@@ -198,6 +223,21 @@ const priorityColor = function(target) {
         target.style.color = "#fff";
     }
 };
+function isDuplicateNote(title, excludeTarget = null) {
+    const allNotes = document.querySelectorAll(".title");
+  
+    for (let note of allNotes) {
+      
+      if (excludeTarget && note.closest(".mainDiv") === excludeTarget) {
+        continue;
+      }
+  
+      if (note.textContent.trim().toLowerCase() === title.trim().toLowerCase()) {
+        alert(`Note "${title}" already exists!`);
+        return true;
+      }
+    }
+    return false;
+}
 
-
-export{button};
+export{button,priorityColor,formValidation,editBtn,deleteBtn};

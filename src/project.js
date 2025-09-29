@@ -1,6 +1,8 @@
 import { formCreator ,setupDialog , divButtons ,mainDivForm} from "./content.js";
-import "./styles/projectStyle.css"
-const defaultProject = function (){
+import { renderNotes } from "./storage.js";
+import "./styles/projectStyle.css";
+
+const buttonWork = function (){
     const btn1 = document.querySelector("#addProject");
     const defaults = document.querySelector("#allProjects");
     const div = document.createElement("div");
@@ -8,6 +10,7 @@ const defaultProject = function (){
     div.classList.add("projects")
     div.textContent = "PROJECT(Default)";
     defaults.append(div);
+    ensureDefaultProject();
     btn1.addEventListener("click" , () => {
         setupDialog();
         projectDialog();
@@ -29,6 +32,7 @@ function submitProject () {
     btn2.addEventListener("click" ,() => {
         validation();
         createProjects(dialogs);
+        ensureDefaultProject();
     })
 }
 function closeDialogs() {
@@ -66,6 +70,7 @@ function createProjects(dialog) {
         return;
     } else {
         projects(divTitle);
+        
     }
 }
 function isDuplicateProject(title) {
@@ -73,10 +78,50 @@ function isDuplicateProject(title) {
     for (let project of allProjects) {
         if (project.textContent.trim().toLowerCase() === title.trim().toLowerCase()) {
             alert(`Project "${title}" already exists!`);
-            return true; // it’s a duplicate
+            return true; 
         }
     }
-    return false; // no duplicate found
+    return false; 
 }
+function ensureDefaultProject() {
+    const allProjects = document.querySelectorAll("#allProjects .projects");
 
-export {defaultProject};
+    if (allProjects.length === 0) return;
+
+    // Ensure default exists
+    let defaultDiv = document.querySelector("#allProjects #default");
+    if (!defaultDiv) {
+        defaultDiv = allProjects[0];
+        defaultDiv.id = "default";
+    }
+
+    // Apply colors
+    allProjects.forEach(p => {
+        p.style.backgroundColor = (p.id === "default") ? "red" : "#0077ff";
+    });
+
+    // Click handlers
+    allProjects.forEach(project => {
+        project.addEventListener("click", () => {
+            const currentDefault = document.querySelector("#allProjects #default");
+            if (currentDefault) {
+                currentDefault.id = currentDefault.textContent.trim().replace(/\s+/g, "_");
+                currentDefault.style.backgroundColor = "#0077ff";
+            }
+
+            // Set new default
+            project.id = "default";
+            project.style.backgroundColor = "red";
+
+            renderNotes(project.textContent.trim());
+            console.log("New default project:", project.textContent);
+        });
+    });
+}
+function searchActiveProject () {
+    const project = document.querySelector("#allProjects #default");
+    if(project) {
+        return project.textContent.trim();
+    }
+}
+export {buttonWork,searchActiveProject,ensureDefaultProject};
